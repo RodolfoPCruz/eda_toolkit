@@ -1,11 +1,11 @@
 [tool.black]
-line-length = 88
+line-length = 79
 target-version = ['py39']  # Or change to 'py310', 'py311', etc., based on your Python version
 skip-string-normalization = false
 
 [tool.isort]
 profile = "black"
-line_length = 88
+line_length = 79
 multi_line_output = 3
 include_trailing_comma = true
 force_grid_wrap = 0
@@ -23,7 +23,7 @@ build-backend = "setuptools.build_meta"
 
 
 [tool.flake8]
-max-line-length = 88
+max-line-length = 79
 extend-ignore = [
     "E203",  # whitespace before ':', conflicts with black
     "W503"   # line break before binary operator, also conflicts with black
@@ -45,7 +45,8 @@ exclude = [
 disable = [
     "missing-module-docstring",
     "missing-class-docstring",
-    "missing-function-docstring"
+    "missing-function-docstring",
+    "too-many-locals"
 ]
 
 [tool.pylint.BASIC]

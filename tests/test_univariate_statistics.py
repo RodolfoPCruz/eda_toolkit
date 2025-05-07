@@ -11,25 +11,34 @@ Edge cases covered:
 - Mixed-type data columns
 """
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from eda_toolkit.univariate_statistics import univariate_statistics
+from eda_toolkit.univariate_statistics import (
+    plot_histograms_countplots,
+    univariate_statistics,
+)
 
 
 def test_numeric_categorical_features():
     """
-    Test the univariate statistics for both numerical and categorical features.
+    Test the univariate statistics for both numerical and
+    categorical features.
 
-    This test verifies that the `univariate_statistics` function correctly calculates
-    the univariate statistics for both numerical and categorical features in the
-    dataset.
+    This test verifies that the `univariate_statistics` function correctly
+    calculates the univariate statistics for both numerical and categorical
+    features in the dataset.
 
     Asserts:
-        - The 'num' column has the correct type, count, missing, unique, and mean values.
-        - The 'cat' column has the correct type, count, missing, unique, and mode values.
+        - The 'num' column has the correct type, count, missing, unique,
+              and mean values.
+        - The 'cat' column has the correct type, count, missing, unique,
+            and mode values.
     """
-    df = pd.DataFrame({"num": [1, 2, 3, 4, 5], "cat": ["a", "a", "b", "b", "b"]})
+    df = pd.DataFrame(
+        {"num": [1, 2, 3, 4, 5], "cat": ["a", "a", "b", "b", "b"]}
+    )
 
     stats = univariate_statistics(df)
 
@@ -50,9 +59,10 @@ def test_nan_handling():
     """
     Test the handling of NaN values in univariate statistics.
 
-    This test verifies that the `univariate_statistics` function correctly calculates
-    the number of missing and non-missing values for both numerical and categorical
-    features in the presence of NaN values in the dataset.
+    This test verifies that the `univariate_statistics` function correctly
+    calculates the number of missing and non-missing values for
+    both numerical and categorical features in the presence of NaN
+    values in the dataset.
 
     Asserts:
         - The 'num' column has 2 missing values and 3 non-missing values.
@@ -78,9 +88,12 @@ def test_numerical_features():
     statistics for numerical columns in the DataFrame.
 
     Asserts:
-        - The 'feat_1' and 'feat_2' columns have the correct mean, min, and max values.
+        - The 'feat_1' and 'feat_2' columns have the correct mean, min,
+        and max values.
     """
-    df = pd.DataFrame({"feat_1": [5, 10, 15, 20, 25], "feat_2": [10, 20, 30, 40, 50]})
+    df = pd.DataFrame(
+        {"feat_1": [5, 10, 15, 20, 25], "feat_2": [10, 20, 30, 40, 50]}
+    )
 
     stats = univariate_statistics(df)
 
@@ -92,10 +105,11 @@ def test_numerical_features():
 
 def test_all_nan():
     """
-    Test that the univariate_statistics function correctly handles columns with all NaN values.
+    Test that the univariate_statistics function correctly handles
+    columns with all NaN values.
 
-    This test verifies that the 'missing' statistic is correctly calculated for a column
-    with all NaN values.
+    This test verifies that the 'missing' statistic is correctly
+    calculated for a column with all NaN values.
 
     Asserts:
         - The 'feat_1' column has 5 missing values.
@@ -109,10 +123,12 @@ def test_all_nan():
 
 def test_categorical_columns():
     """
-    Test that the univariate_statistics function correctly handles categorical columns.
+    Test that the univariate_statistics function correctly handles
+    categorical columns.
 
-    This test verifies that the function correctly calculates the mode of a categorical
-    column and sets all other statistics to '-' for categorical columns.
+    This test verifies that the function correctly calculates the mode
+    of a categorical column and sets all other statistics to '-'
+    for categorical columns.
 
     Asserts:
         - The 'cat_feature' column has a mode of 'a' or 'b'.
@@ -136,10 +152,12 @@ def test_categorical_columns():
 
 def test_constant_column():
     """
-    Test that the univariate_statistics function correctly handles constant columns.
+    Test that the univariate_statistics function correctly handles
+    constant columns.
 
-    This test verifies that the standard deviation, skewness, and kurtosis of a constant
-    column are all zero, and that the number of unique values is one.
+    This test verifies that the standard deviation, skewness, and kurtosis
+    of a constant column are all zero, and that the number of unique
+    values is one.
 
     Asserts:
         - The 'constant_feature' column has a standard deviation of 0.
@@ -159,10 +177,11 @@ def test_constant_column():
 
 def test_empty_dataframe():
     """
-    Test that the univariate_statistics function correctly handles an empty dataframe.
+    Test that the univariate_statistics function correctly handles an
+    empty dataframe.
 
-    This test verifies that the function returns an empty dataframe when given an
-    empty dataframe as input.
+    This test verifies that the function returns an empty dataframe when
+    given an empty dataframe as input.
 
     Asserts:
         - The output of the function is an empty dataframe.
@@ -174,10 +193,11 @@ def test_empty_dataframe():
 
 def test_rounding():
     """
-    Test that the univariate_statistics function correctly rounds the results of
-    calculations to the specified decimal place.
+    Test that the univariate_statistics function correctly rounds
+    the results of calculations to the specified decimal place.
 
-    This test verifies that the mean of a column is rounded to the specified decimal place.
+    This test verifies that the mean of a column is rounded to the
+    specified decimal place.
 
     Asserts:
         - The mean of the 'x' column is rounded to 2 decimal places.
@@ -206,3 +226,75 @@ def test_mode_with_multiple_modes():
 
     stats = univariate_statistics(df)
     assert stats.loc["f"]["mode"] in [1, 2]
+
+
+def test_plot_with_numeric_and_categorical(monkeypatch):
+    """
+    Test that the plot_histograms_countplots function correctly handles
+      a dataframe with both numeric and categorical columns.
+
+    This test verifies that the function does not crash when given a
+    dataframe with both numeric and categorical columns.
+
+    Asserts:
+        - The function does not crash.
+    """
+
+    df = pd.DataFrame(
+        {"num": [1, 2, 3, 4, 5], "cat": ["a", "a", "b", "b", "b"]}
+    )
+
+    # Mock plt.show to avoid opening windows
+    monkeypatch.setattr(plt, "show", lambda: None)
+
+    plot_histograms_countplots(df)  # Just check it doesn't crash
+
+
+def test_plot_with_invalid_column(monkeypatch, capsys):
+    """
+    Test that the plot_histograms_countplots function
+    correctly handles a column
+    that is not in the dataframe.
+
+    This test verifies that the function prints a message
+    indicating that the column
+    was not in df and was therefore ignored.
+
+    Asserts:
+        - The function prints a message indicating that
+        the column was not in df and
+          was therefore ignored.
+    """
+
+    df = pd.DataFrame(
+        {
+            "num": [1, 2, 3],
+        }
+    )
+
+    # Mock plt.show to avoid opening windows
+    monkeypatch.setattr(plt, "show", lambda: None)
+
+    plot_histograms_countplots(df, list_of_features=["invalid_col"])
+
+    captured = capsys.readouterr()
+    assert "was not in df and was therefore ignored" in captured.out
+
+
+def test_plot_with_empty_dataframe(monkeypatch):
+    """
+    Test that the plot_histograms_countplots function correctly
+    handles an empty dataframe.
+
+    This test verifies that the function does not crash when
+    given an empty dataframe.
+
+    Asserts:
+        - The function does not crash.
+    """
+
+    df = pd.DataFrame()
+
+    monkeypatch.setattr(plt, "show", lambda: None)
+
+    plot_histograms_countplots(df)

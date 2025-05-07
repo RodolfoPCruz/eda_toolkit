@@ -3,7 +3,9 @@ Module to calculate univariate statistics of features in a pandas dataframe.
 
 """
 
+import matplotlib.pyplot as plt
 import pandas as pd
+import seaborn as sns
 
 
 def univariate_statistics(df: pd.DataFrame, round_to: int = 3) -> pd.DataFrame:
@@ -110,7 +112,38 @@ def univariate_statistics(df: pd.DataFrame, round_to: int = 3) -> pd.DataFrame:
     return output_df
 
 
+def plot_histograms_countplots(
+    df: pd.DataFrame, list_of_features: list = None
+) -> None:
+    """
+    The function plots histogram for numeric features and
+    countplots for categorical features.
+
+    Args:
+        df (pd.DataFrame): data to be plotted
+        list_of_feature: features to be plotted. If None,
+        all numerical and categorical features in df will be plotted
+    """
+
+    if list_of_features is None:
+        list_of_features = df.columns
+
+    for col in list_of_features:
+        if col not in df:
+            print(f"The feature {col} was not in df and was therefore ignored")
+            continue
+        if pd.api.types.is_numeric_dtype(df[col]):
+            plt.title(col)
+            sns.histplot(df[col], stat="density")
+        else:
+            plt.title(col)
+            sns.countplot(data=df, x=df[col])
+            if df[col].nunique() > 10:
+                plt.xticks(rotation=90)
+        plt.show()
+
+
 if __name__ == "__main__":
     nba = pd.read_csv("../data/nba/nba_salaries.csv")
     univariate_stats = univariate_statistics(nba)
-    print(univariate_stats.head())
+    plot_histograms_countplots(nba)
