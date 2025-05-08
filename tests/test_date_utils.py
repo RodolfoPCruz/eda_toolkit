@@ -1,0 +1,157 @@
+"""
+Test suite for the `parse_and_format_dates` function
+"""
+
+from datetime import datetime
+
+import pytest
+
+from eda_toolkit.date_utils import parse_and_format_dates
+
+
+@pytest.mark.parametrize(
+    "input_str,expected",
+    [
+        ("2023-12-25", "2023-12-25"),
+        ("25-12-2023", "2023-12-25"),
+        ("12/25/2023", "2023-12-25"),
+        ("25 Dec 2023", "2023-12-25"),
+        ("December 25, 2023", "2023-12-25"),
+    ],
+)
+def test_valid_formats_string_output(input_str, expected):
+    """
+    Test that the `parse_and_format_dates` function correctly formats
+    date strings in various valid input formats to the standard format.
+
+    This test uses parameterized inputs to verify that the function can
+    handle multiple date formats and return the expected formatted date
+    string.
+
+    Args:
+        input_str: A date string in one of the valid formats.
+        expected: The expected output in the standard format.
+
+    Asserts:
+        - The parsed and formatted date matches the expected output.
+    """
+
+    assert parse_and_format_dates(input_str) == expected
+
+
+@pytest.mark.parametrize(
+    "input_str",
+    [
+        "2023-12-25",
+        "25-12-2023",
+    ],
+)
+def test_valid_formats_datetime_output(input_str):
+    """
+    Test that the `parse_and_format_dates` function correctly converts
+    date strings in various valid input formats to datetime objects.
+
+    This test uses parameterized inputs to verify that the function can
+    handle multiple date formats and return datetime objects.
+
+    Args:
+        input_str: A date string in one of the valid formats.
+
+    Asserts:
+        - The parsed date matches the expected datetime object.
+    """
+
+    expected = datetime(2023, 12, 25)
+    assert (
+        parse_and_format_dates(input_str, return_type="datetime") == expected
+    )
+
+
+def test_custom_output_format():
+    """
+    Test that the `parse_and_format_dates` function correctly formats
+    date strings with a custom output format.
+
+    Args:
+        input_str: A date string in one of the valid formats.
+        standard_format: A custom output format string.
+
+    Asserts:
+        - The parsed date matches the expected output string in the custom
+          format.
+    """
+    result = parse_and_format_dates("25-12-2023", standard_format="%d/%m/%Y")
+    assert result == "25/12/2023"
+
+
+@pytest.mark.parametrize(
+    "input_str",
+    [
+        "25/12/23",
+        "2023.12.25",
+        "random text",
+    ],
+)
+def test_invalid_formats(input_str):
+    """
+    Test that the `parse_and_format_dates` function correctly handles
+    invalid date strings.
+
+    This test uses parameterized inputs to verify that the function can
+    handle multiple invalid date formats and return None.
+
+    Args:
+        input_str: An invalid date string.
+
+    Asserts:
+        - The parsed date matches None.
+    """
+    assert parse_and_format_dates(input_str) is None
+
+
+@pytest.mark.parametrize(
+    "bad_input",
+    [
+        12345,
+        None,
+        12.5,
+        [],
+    ],
+)
+def test_invalid_input_type(bad_input):
+    """
+    Test that the `parse_and_format_dates` function correctly handles
+    invalid input types.
+
+    This test uses parameterized inputs to verify that the function can
+    handle multiple invalid input types and return None.
+
+    Args:
+        bad_input: An invalid input type.
+
+    Asserts:
+        - The parsed date matches None.
+    """
+    assert parse_and_format_dates(bad_input) is None
+
+
+def test_invalid_return_type(capfd):
+    """
+    Test that the `parse_and_format_dates` function correctly handles
+    invalid return types.
+
+    This test verifies that the function can handle multiple invalid
+    return types and return the default output type (string).
+
+    Args:
+        capfd: pytest fixture that captures the output of the function.
+
+    Asserts:
+        - The function prints a message indicating that the return type
+          is not valid.
+        - The parsed date matches the default output type (string).
+    """
+    result = parse_and_format_dates("2023-12-25", return_type="invalid_type")
+    captured = capfd.readouterr()
+    assert "not a valid return type" in captured.out
+    assert result == "2023-12-25"

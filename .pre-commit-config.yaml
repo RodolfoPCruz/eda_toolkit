@@ -26,6 +26,6 @@ repos:
         - numpy
         - matplotlib
         - seaborn
-
+        - pytest
 
 

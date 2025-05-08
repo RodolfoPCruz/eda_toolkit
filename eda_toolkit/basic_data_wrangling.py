@@ -2,7 +2,25 @@
 Module for basic data wrangling
 """
 
+import logging
+
 import pandas as pd
+
+# logging
+
+
+# Remove any existing handlers to avoid duplicate or ignored settings
+for handler in logging.root.handlers[:]:
+    logging.root.removeHandler(handler)
+
+logging.basicConfig(
+    filename="../logs/wrangling.log",
+    filemode="w",  # or 'a' to append
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+)
+
+logger = logging.getLogger(__name__)
 
 
 def basic_wrangling(
@@ -53,17 +71,20 @@ def basic_wrangling(
             # remove empty or almost empy columns
             if proportion_nan_values > proportion_nan_thresh:
                 df = df.drop(columns=feature)
-                print(
-                    f"Feature {feature} removed. "
-                    f"{100 * proportion_nan_values:.2f}% of missing values."
+                logger.info(
+                    "Feature %s removed. %.2f%% of missing values.",
+                    feature,
+                    100 * proportion_nan_values,
                 )
 
             # remove features with only one unique value
             elif num_unique == 1:
                 df = df.drop(columns=feature)
-                print(
-                    f"Feature {feature} removed. "
-                    "There is only one unique value in the column."
+
+                logger.info(
+                    "Feature %s removed. There is only one  unique value "
+                    "in the column.",
+                    feature,
                 )
 
             # Remove categorical columns with more than p
@@ -73,14 +94,16 @@ def basic_wrangling(
                 and not pd.api.types.is_numeric_dtype(df[feature])
             ):
                 df = df.drop(columns=feature)
-                print(
-                    f"Feature {feature} removed. "
-                    f"The proportion of unique values in the feature of "
-                    f"type  {data_type} is "
-                    f"{100 * proportion_unique_values:.2f}%"
+                logger.info(
+                    "Feature %s removed. The proportion of unique values in "
+                    "the feature of "
+                    "type %s is %.2f%%",
+                    feature,
+                    data_type,
+                    100 * proportion_unique_values,
                 )
 
         else:
-            print(f"The feature {feature} is not in the dataframe.")
+            logger.info("The feature %s is not in the dataframe.", feature)
 
     return df
