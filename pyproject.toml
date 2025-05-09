@@ -13,12 +13,9 @@ use_parentheses = true
 ensure_newline_before_comments = true
 
 
-[project]
-name = "eda_toolkit"
-version = "0.1.0"
 
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 

@@ -6,20 +6,10 @@ import logging
 
 import pandas as pd
 
-# logging
+from eda_toolkit.utils.data_loader import load_csv_from_data
+from eda_toolkit.utils.logger_utils import configure_logging
 
-
-# Remove any existing handlers to avoid duplicate or ignored settings
-for handler in logging.root.handlers[:]:
-    logging.root.removeHandler(handler)
-
-logging.basicConfig(
-    filename="../logs/wrangling.log",
-    filemode="w",  # or 'a' to append
-    level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s",
-)
-
+configure_logging(log_file_name="wrangling.log")
 logger = logging.getLogger(__name__)
 
 
@@ -55,6 +45,7 @@ def basic_wrangling(
     """
 
     df = df.copy()
+    logging.info("Starting data wrangling...")
 
     if columns is None:
         columns = df.columns
@@ -107,3 +98,9 @@ def basic_wrangling(
             logger.info("The feature %s is not in the dataframe.", feature)
 
     return df
+
+
+if __name__ == "__main__":
+    nba = load_csv_from_data("nba/nba_salaries.csv")
+    nba_wrangled = basic_wrangling(nba)
+    print(nba_wrangled.head())

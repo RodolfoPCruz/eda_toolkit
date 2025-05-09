@@ -4,9 +4,13 @@ Test suite for the `parse_and_format_dates` function
 
 from datetime import datetime
 
+import pandas as pd
 import pytest
 
-from eda_toolkit.date_utils import parse_and_format_dates
+from eda_toolkit.date_utils import (
+    create_new_date_columns,
+    parse_and_format_dates,
+)
 
 
 @pytest.mark.parametrize(
@@ -155,3 +159,103 @@ def test_invalid_return_type(capfd):
     captured = capfd.readouterr()
     assert "not a valid return type" in captured.out
     assert result == "2023-12-25"
+
+
+def test_basic_extraction(sample_df):
+    """
+    Test that the `create_new_date_columns` function correctly extracts the
+    date components (year, month, day, weekday) from a column of dates.
+
+    This test uses a sample DataFrame with a single column of dates and
+    verifies that the extracted components are correct.
+
+    Args:
+        sample_df: A sample DataFrame containing a column of dates, provided
+        as a pytest fixture.
+
+    Asserts:
+        - The function correctly extracts the date components.
+    """
+    df = create_new_date_columns(
+        sample_df.copy(), ["date_col"], calculate_difference=False
+    )
+    for suffix in ("_year", "_month", "_day", "_weekday"):
+        assert f"date_col{suffix}" in df.columns
+    assert list(df["date_col_year"]) == [2020, 2020]
+    assert list(df["date_col_month"]) == [1, 1]
+    assert list(df["date_col_day"]) == [1, 2]
+    assert list(df["date_col_weekday"]) == ["Wednesday", "Thursday"]
+
+
+def test_difference_with_valid_reference(sample_df):
+    """
+    Test that the `create_new_date_columns` function correctly calculates
+    the difference in days between the reference date and the dates in
+    the given column.
+
+    This test verifies that the function accurately computes the date
+    differences when a valid reference date is provided.
+
+    Args:
+        sample_df: A sample DataFrame containing a column of dates,
+            provided as a pytest fixture.
+
+    Asserts:
+        - The calculated differences in days are correct.
+        - The differences are represented as `pd.Timedelta` objects.
+    """
+
+    ref = "2020-01-05"
+    df = create_new_date_columns(
+        sample_df.copy(),
+        ["date_col"],
+        calculate_difference=True,
+        reference_date=ref,
+    )
+    assert list(df["actual_date - date_col in days"]) == [4, 3]
+    assert all(
+        isinstance(x, pd.Timedelta) for x in df["actual_date - date_col"]
+    )
+
+
+def test_no_difference_columns_when_disabled(sample_df):
+    """
+    Test that the `create_new_date_columns` function does not create
+    the date difference columns when `calculate_difference` is False.
+
+    This test verifies that the function does not create the columns
+    when `calculate_difference` is False.
+
+    Args:
+        sample_df: A sample DataFrame containing a column of dates,
+            provided as a pytest fixture.
+
+    Asserts:
+        - The columns "actual_date - date_col" and
+          "actual_date - date_col in days" are not created.
+    """
+    df = create_new_date_columns(
+        sample_df.copy(), ["date_col"], calculate_difference=False
+    )
+    assert "actual_date - date_col" not in df.columns
+    assert "actual_date - date_col in days" not in df.columns
+
+
+def test_mixed_valid_and_invalid_dates():
+    # Mix of valid and invalid
+    df_input = pd.DataFrame(
+        {
+            "mix_dates": ["2020-01-01", "not a date"],
+        }
+    )
+    df = create_new_date_columns(
+        df_input.copy(), ["mix_dates"], calculate_difference=False
+    )
+
+    # Columns must exist
+    assert "mix_dates_year" in df.columns
+    # Valid row gets year, invalid gets NaN
+    assert df.loc[0, "mix_dates_year"] == 2020
+    assert pd.isna(
+        df.loc[1, "mix_dates_year"]
+    ), "Expected NaN for invalid date"

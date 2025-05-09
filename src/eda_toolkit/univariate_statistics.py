@@ -7,6 +7,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
+from eda_toolkit.utils.data_loader import load_csv_from_data
+
 
 def univariate_statistics(df: pd.DataFrame, round_to: int = 3) -> pd.DataFrame:
     """
@@ -144,6 +146,6 @@ def plot_histograms_countplots(
 
 
 if __name__ == "__main__":
-    nba = pd.read_csv("../data/nba/nba_salaries.csv")
+    nba = load_csv_from_data("nba/nba_salaries.csv")
     univariate_stats = univariate_statistics(nba)
     plot_histograms_countplots(nba)
