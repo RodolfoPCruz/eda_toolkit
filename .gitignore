@@ -1,2 +1,3 @@
 #ignorar folder com os dados
 data/
+src/eda_toolkit.egg-info
