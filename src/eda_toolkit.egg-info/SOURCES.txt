@@ -2,6 +2,7 @@ pyproject.toml
 setup.cfg
 src/eda_toolkit/__init__.py
 src/eda_toolkit/basic_data_wrangling.py
+src/eda_toolkit/bivariate_statistics.py
 src/eda_toolkit/date_utils.py
 src/eda_toolkit/univariate_statistics.py
 src/eda_toolkit.egg-info/PKG-INFO
@@ -10,7 +11,9 @@ src/eda_toolkit.egg-info/dependency_links.txt
 src/eda_toolkit.egg-info/requires.txt
 src/eda_toolkit.egg-info/top_level.txt
 src/eda_toolkit/utils/__init__.py
+src/eda_toolkit/utils/data_loader.py
 src/eda_toolkit/utils/logger_utils.py
 tests/test_basic_data_wrangling.py
+tests/test_bivariate_statistics.py
 tests/test_date_utils.py
 tests/test_univariate_statistics.py

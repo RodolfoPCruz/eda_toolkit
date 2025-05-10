@@ -70,6 +70,11 @@ def bivariate_stats(df: pd.DataFrame, target: str, round_to: int = 3):
             output_df.loc[feature] = result_row(meta)
             continue
 
+        # no variance = no stats
+        if unique_vals == 1:
+            output_df.loc[feature] = result_row(meta)
+            continue
+
         if pd.api.types.is_numeric_dtype(
             df_temp[feature]
         ) and pd.api.types.is_numeric_dtype(df_temp[target]):
@@ -209,10 +214,22 @@ def handle_anova(df_temp, numeric_col, cat_col, round_to, meta: StatMeta):
         df_temp[df_temp[cat_col] == cat][numeric_col]
         for cat in df_temp[cat_col].unique()
     ]
+    # Keep only groups with at least 2 samples
+    valid_groups = [g for g in groups if len(g) >= 2]
 
-    # Check if any group has fewer than 2 data points
-    if any(len(g) < 2 for g in groups):
+    # check the number of valid groups
+    if len(valid_groups) < 2:
         return result_row(meta)
+
+    # if number of valid groups is 2, perform t-test
+    if len(valid_groups) == 2:
+        tstat, p = stats.ttest_ind(valid_groups[0], valid_groups[1])
+        return result_row(
+            meta,
+            p_value=round(p, round_to),
+            ttest=round(tstat, round_to),
+            skew=round(df_temp[numeric_col].skew(), round_to),
+        )
 
     try:
         # Perform ANOVA
@@ -235,8 +252,8 @@ def handle_anova(df_temp, numeric_col, cat_col, round_to, meta: StatMeta):
 
 def is_invalid_categorical(df_temp, feature, target):
     """
-    Check whether both feature and target are non-numeric with
-    all unique values.
+    Check whether both feature and target are non-numeric
+    with all unique values.
     """
     return (
         not pd.api.types.is_numeric_dtype(df_temp[feature])
@@ -249,5 +266,5 @@ def is_invalid_categorical(df_temp, feature, target):
 
 if __name__ == "__main__":
     nba = load_csv_from_data("nba/nba_salaries.csv")
-    nba_bivatiate_stats = bivariate_stats(nba, "Salary")
-    print(nba_bivatiate_stats.head())
+    nba_bivariate_statistics = bivariate_stats(nba, "Salary")
+    print(nba_bivariate_statistics.head())
