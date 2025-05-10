@@ -2,6 +2,7 @@
 Test suite for the `bivariate_stats` function
 """
 import pandas as pd
+
 # pylint: disable=import-error
 from eda_toolkit.bivariate_statistics import bivariate_stats
 
