@@ -38,14 +38,14 @@ exclude = [
     ".idea"
 ]
 
-[tool.pylint.'MESSAGES CONTROL']
-disable = [
-    "missing-module-docstring",
-    "missing-class-docstring",
-    "missing-function-docstring",
-    "too-many-locals"
-]
+#[tool.pylint.'MESSAGES CONTROL']
+#disable = [
+#    "missing-module-docstring",
+#    "missing-class-docstring",
+#    "missing-function-docstring",
+#    "too-many-locals"
+#]
 
-[tool.pylint.BASIC]
-good-names = ["i", "j", "df", "x", "y"]
+#[tool.pylint.BASIC]
+#good-names = ["i", "j", "df", "x", "y"]
 

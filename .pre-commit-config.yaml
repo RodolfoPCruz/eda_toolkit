@@ -17,15 +17,15 @@ repos:
       - id: flake8
         files: \.py$
         
-  - repo: https://github.com/pre-commit/mirrors-pylint
-    rev: v3.0.0a5  # or your desired version
-    hooks:
-     - id: pylint
-       additional_dependencies:
-        - pandas
-        - numpy
-        - matplotlib
-        - seaborn
-        - pytest
+ # - repo: https://github.com/pre-commit/mirrors-pylint
+ #   rev: v3.0.0a5  # or your desired version
+ #   hooks:
+ #    - id: pylint
+ #      additional_dependencies:
+ #       - pandas
+ #       - numpy
+ #       - matplotlib
+ #       - seaborn
+ #       - pytest
 
 

@@ -97,8 +97,9 @@ def mixed_type_df():
     """
     A sample DataFrame fixture with mixed data types for testing purposes.
 
-    This fixture provides a DataFrame with a numeric feature column containing
-    a missing value, a categorical feature column, and a numeric target column.
+    This fixture provides a DataFrame with a numeric feature column
+    containing a missing value, a categorical feature column, and a
+    numeric target column.
 
     Columns:
         - 'feature1': Numeric feature values with one missing value.
@@ -162,5 +163,102 @@ def edge_case_df():
             "feature2": [1, 2, 3, 4, 5],  # All unique
             "feature3": ["a", "a", "b", "b", "c"],
             "target": [1, 2, 3, 4, 5],
+        }
+    )
+
+
+@pytest.fixture
+def sample_data_two_groups():
+    """
+    A sample DataFrame fixture with two categorical groups for testing.
+
+    This fixture provides a DataFrame with a categorical 'category' column
+    and a numeric 'value' column, containing two groups ('A' and 'B') with
+    associated values for testing purposes.
+
+    Columns:
+        - 'category': Categorical feature with two groups ('A', 'B').
+        - 'value': Numeric values associated with each category.
+
+    Returns:
+        pd.DataFrame: A DataFrame with two groups for testing.
+    """
+
+    return pd.DataFrame(
+        {"category": ["A", "A", "B", "B"], "value": [1.0, 2.0, 2.0, 3.0]}
+    )
+
+
+@pytest.fixture
+def sample_data_three_groups():
+    """
+    A sample DataFrame fixture with three categorical groups for testing.
+
+    This fixture provides a DataFrame with a categorical 'category' column
+    and a numeric 'value' column, containing three groups ('A', 'B', 'C')
+    with associated values for testing purposes.
+
+    Columns:
+        - 'category': Categorical feature with three groups ('A', 'B', 'C').
+        - 'value': Numeric values associated with each category.
+
+    Returns:
+        pd.DataFrame: A DataFrame with three groups for testing.
+    """
+    return pd.DataFrame(
+        {
+            "category": ["A", "A", "B", "B", "C", "C"],
+            "value": [1.0, 2.0, 2.0, 3.0, 3.0, 4.0],
+        }
+    )
+
+
+@pytest.fixture
+def insufficient_data():
+    """
+    A sample DataFrame fixture with insufficient data for two-sample
+    comparison.
+
+    This fixture provides a DataFrame with a categorical 'category' column
+    and a numeric 'value' column, containing only two groups ('A' and 'B')
+    with two values in the 'B' group. This is insufficient for two-sample
+    comparison.
+
+    Columns:
+        - 'category': Categorical feature with two groups ('A', 'B').
+        - 'value': Numeric values associated with each category.
+
+    Returns:
+        pd.DataFrame: A DataFrame with insufficient data for two-sample
+        comparison.
+    """
+    return pd.DataFrame(
+        {"category": ["A", "B", "B"], "value": [1.0, 2.0, 3.0]}
+    )
+
+
+@pytest.fixture
+def test_df():
+    """
+    A sample DataFrame fixture with binary categorical data for testing.
+
+    This fixture provides a DataFrame with two columns: 'gender' with two
+    categories ('M' and 'F'), and 'response' with two categories ('Yes' and
+    'No'). The responses are evenly distributed between the two gender
+    categories.
+
+    Columns:
+        - 'gender': Binary categorical feature with two categories
+         ('M', 'F').
+        - 'response': Binary categorical feature with two categories
+        ('Yes', 'No').
+
+    Returns:
+        pd.DataFrame: A DataFrame with binary categorical data for testing.
+    """
+    return pd.DataFrame(
+        {
+            "gender": ["M", "F", "M", "F", "M", "F"],
+            "response": ["Yes", "No", "Yes", "Yes", "No", "No"],
         }
     )
