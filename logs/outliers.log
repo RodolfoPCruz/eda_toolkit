@@ -60,3 +60,65 @@
 2025-05-14 05:40:31,778 - INFO - The feature PTS has 23 values above 24.2
 2025-05-14 05:40:31,779 - INFO - The feature PTS has 0 values below -6.999999999999999
 2025-05-14 05:40:31,780 - INFO - The feature Player-additional is not numeric and was therefore ignored
+2025-05-14 16:48:01,138 - INFO - Detecting and treating outliers using traditional methods...
+2025-05-14 16:48:01,163 - INFO - 34 rows were removed because they contained NaN values.
+2025-05-14 16:48:01,165 - INFO - The feature Unnamed: 0 has 0 values above 616.8809748162058
+2025-05-14 16:48:01,166 - INFO - The feature Unnamed: 0 has 0 values below -172.4144621141273
+2025-05-14 16:48:01,166 - INFO - The feature Player Name is not numeric and was therefore ignored
+2025-05-14 16:48:01,170 - INFO - The feature Salary has 48 values above 25171860.0
+2025-05-14 16:48:01,170 - INFO - The feature Salary has 0 values below -12045740.0
+2025-05-14 16:48:01,170 - INFO - The feature Position is not numeric and was therefore ignored
+2025-05-14 16:48:01,173 - INFO - The feature Age has 2 values above 38.98492979359507
+2025-05-14 16:48:01,173 - INFO - The feature Age has 0 values below 12.86264526414165
+2025-05-14 16:48:01,173 - INFO - The feature Team is not numeric and was therefore ignored
+2025-05-14 16:48:01,175 - INFO - The feature GP has 0 values above 120.12540973505637
+2025-05-14 16:48:01,176 - INFO - The feature GP has 0 values below -18.531876247758447
+2025-05-14 16:48:01,179 - INFO - The feature GS has 0 values above 106.05627153527236
+2025-05-14 16:48:01,179 - INFO - The feature GS has 0 values below -58.1486502881592
+2025-05-14 16:48:01,183 - INFO - The feature MP has 0 values above 47.87463511973293
+2025-05-14 16:48:01,183 - INFO - The feature MP has 0 values below -6.359161678624389
+2025-05-14 16:48:01,192 - INFO - The feature FG has 17 values above 8.95
+2025-05-14 16:48:01,192 - INFO - The feature FG has 0 values below -2.6499999999999995
+2025-05-14 16:48:01,206 - INFO - The feature FGA has 15 values above 18.950000000000003
+2025-05-14 16:48:01,206 - INFO - The feature FGA has 0 values below -5.45
+2025-05-14 16:48:01,209 - INFO - The feature FG% has 5 values above 0.7181720563164838
+2025-05-14 16:48:01,210 - INFO - The feature FG% has 3 values below 0.21383718155880482
+2025-05-14 16:48:01,222 - INFO - The feature 3P has 7 values above 3.4000000000000004
+2025-05-14 16:48:01,223 - INFO - The feature 3P has 0 values below -1.4000000000000004
+2025-05-14 16:48:01,226 - INFO - The feature 3PA has 4 values above 9.724129952637163
+2025-05-14 16:48:01,226 - INFO - The feature 3PA has 0 values below -3.7994186362399347
+2025-05-14 16:48:01,230 - INFO - The feature 3P% has 3 values above 0.6960983716047672
+2025-05-14 16:48:01,230 - INFO - The feature 3P% has 0 values below -0.04148867183571403
+2025-05-14 16:48:01,240 - INFO - The feature 2P has 17 values above 7.0
+2025-05-14 16:48:01,240 - INFO - The feature 2P has 0 values below -2.5999999999999996
+2025-05-14 16:48:01,250 - INFO - The feature 2PA has 21 values above 12.399999999999999
+2025-05-14 16:48:01,251 - INFO - The feature 2PA has 0 values below -4.399999999999999
+2025-05-14 16:48:01,255 - INFO - The feature 2P% has 3 values above 0.8520890081070058
+2025-05-14 16:48:01,255 - INFO - The feature 2P% has 4 values below 0.22112577249345605
+2025-05-14 16:48:01,267 - INFO - The feature eFG% has 4 values above 0.7614929312690248
+2025-05-14 16:48:01,268 - INFO - The feature eFG% has 5 values below 0.31161099482797283
+2025-05-14 16:48:01,273 - INFO - The feature FT has 39 values above 3.9999999999999996
+2025-05-14 16:48:01,273 - INFO - The feature FT has 0 values below -1.5999999999999996
+2025-05-14 16:48:01,279 - INFO - The feature FTA has 33 values above 5.2
+2025-05-14 16:48:01,279 - INFO - The feature FTA has 0 values below -2.0
+2025-05-14 16:48:01,285 - INFO - The feature FT% has 0 values above 1.0645
+2025-05-14 16:48:01,285 - INFO - The feature FT% has 11 values below 0.4764999999999999
+2025-05-14 16:48:01,290 - INFO - The feature ORB has 27 values above 2.1500000000000004
+2025-05-14 16:48:01,290 - INFO - The feature ORB has 0 values below -0.65
+2025-05-14 16:48:01,295 - INFO - The feature DRB has 19 values above 6.35
+2025-05-14 16:48:01,295 - INFO - The feature DRB has 0 values below -1.2499999999999996
+2025-05-14 16:48:01,300 - INFO - The feature TRB has 23 values above 8.1
+2025-05-14 16:48:01,300 - INFO - The feature TRB has 0 values below -1.4999999999999996
+2025-05-14 16:48:01,305 - INFO - The feature AST has 26 values above 6.15
+2025-05-14 16:48:01,306 - INFO - The feature AST has 0 values below -2.2500000000000004
+2025-05-14 16:48:01,309 - INFO - The feature STL has 5 values above 1.7585504687080196
+2025-05-14 16:48:01,309 - INFO - The feature STL has 0 values below -0.4952710229805368
+2025-05-14 16:48:01,314 - INFO - The feature BLK has 28 values above 0.95
+2025-05-14 16:48:01,315 - INFO - The feature BLK has 0 values below -0.24999999999999994
+2025-05-14 16:48:01,321 - INFO - The feature TOV has 28 values above 2.85
+2025-05-14 16:48:01,321 - INFO - The feature TOV has 0 values below -0.7500000000000001
+2025-05-14 16:48:01,331 - INFO - The feature PF has 2 values above 3.9606197663821305
+2025-05-14 16:48:01,332 - INFO - The feature PF has 0 values below -0.4299038310472574
+2025-05-14 16:48:01,338 - INFO - The feature PTS has 23 values above 24.2
+2025-05-14 16:48:01,339 - INFO - The feature PTS has 0 values below -6.999999999999999
+2025-05-14 16:48:01,339 - INFO - The feature Player-additional is not numeric and was therefore ignored

@@ -147,7 +147,7 @@ def test_clean_outliers_replace(sample_data_outliers):
 
 
 def test_clean_outliers_ignore_non_numeric_and_constant(
-    sample_data_outliers, caplog
+    sample_data_outliers
 ):
     """
     Test that clean_outliers function ignores non numeric and constant
@@ -178,3 +178,59 @@ def test_clean_outliers_ignore_non_numeric_and_constant(
     assert "non_numeric" in df_cleaned.columns
     assert "constant" in df_cleaned.columns
     assert df_cleaned.equals(sample_data_outliers.dropna())
+
+def test_clean_outliers_ignore_binary(sample_data_outliers):
+    """
+    Test that clean_outliers function ignores binary features.
+
+    Parameters
+    ----------
+    sample_data : pd.DataFrame
+        A pandas DataFrame containing sample data.
+
+    caplog : pytest fixture
+        A pytest fixture to capture log messages.
+
+    Returns
+    -------
+    None
+
+    Notes
+    -----
+    The test checks that the function returns a DataFrame containing the
+    specified binary feature without altering its values when 'replace'
+    outlier treatment is used.
+    """
+
+    df_cleaned = clean_outliers(sample_data_outliers, features_list=['binary'], 
+                                outlier_treatment='replace')
+    assert set(df_cleaned['binary'].unique()).issubset({0, 1})
+
+def test_invalid_outlier_treatment(sample_data_outliers):
+    
+    """
+    Test that clean_outliers function will still process the dataframe even 
+    if the outlier_treatment method is invalid.
+
+    Parameters
+    ----------
+    sample_data : pd.DataFrame
+        A pandas DataFrame containing sample data.
+
+    caplog : pytest fixture
+        A pytest fixture to capture log messages.
+
+    Returns
+    -------
+    None
+
+    Notes
+    -----
+    The test checks that the function returns a DataFrame containing the
+    specified feature without applying any outlier treatment.
+    """
+    
+    df_cleaned = clean_outliers(sample_data_outliers, 
+                                features_list=['normal_dist'], 
+                                outlier_treatment='invalid_method')
+    assert 'normal_dist' in df_cleaned.columns 

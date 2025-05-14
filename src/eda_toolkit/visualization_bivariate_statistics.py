@@ -4,7 +4,6 @@ bivariate statistics of features in a pandas dataframe.
 """
 
 from itertools import combinations
-
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -112,6 +111,7 @@ def generate_bar_plot(
     df: pd.DataFrame,
     numerical_feature: str,
     categorical_feature: str,
+    round_to: int = 3,
     alpha: float = 0.05,
     plot_type: str = "bar",
 ):
@@ -128,8 +128,6 @@ def generate_bar_plot(
     - plot_type: "bar" or "violin"
     """
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4))
-
-    round_to: int = (3,)
 
     # Choose plot type
     if plot_type == "bar":
@@ -161,16 +159,15 @@ def generate_bar_plot(
 
     if num_groups < 2:
         raise ValueError(
-            "It is necessary to have at least two valid groups in "
+            "It is necessary to have at least two valid groups in " \
             "the categorical feature."
         )
 
     # Statistical tests
     if num_groups == 2:
-        group1, group2 = groups_list[0], groups_list[1]
-        t_stat, p_value = stats.ttest_ind(group1, group2, equal_var=False)
-        text_str = f"t-test:\nt={round(t_stat, round_to)}, "
-        text_str += f"p={round(p_value, round_to)}\n"
+        t_stat, p_value = stats.ttest_ind(*groups_list, equal_var=False)
+        text_str = f"t-test:\nt={round(t_stat, round_to)}, " 
+        text_str += f"p={round(p_value, round_to)}"
     else:
         f_stat, p_val_anova = stats.f_oneway(*groups_list)
         text_str = f"ANOVA:\nF={round(f_stat, round_to)}, "
@@ -179,13 +176,11 @@ def generate_bar_plot(
         pairs = list(combinations(valid_groups, 2))
         bonferroni = round(alpha / len(pairs), round_to)
         text_str += f"\nPairwise t-tests (Bonf α={bonferroni}):\n"
-        for group_a, group_b in pairs:
-            vals_a = df[df[categorical_feature] == group_a][numerical_feature]
-            vals_b = df[df[categorical_feature] == group_b][numerical_feature]
+        for a, b in pairs:
+            vals_a = df[df[categorical_feature] == a][numerical_feature]
+            vals_b = df[df[categorical_feature] == b][numerical_feature]
             t_stat, p_value = stats.ttest_ind(vals_a, vals_b, equal_var=False)
-            text_str += (
-                f"{group_a} vs {group_b}: t={round(t_stat, round_to)}, "
-            )
+            text_str += f"{a} vs {b}: t={round(t_stat, round_to)}, "
             text_str += f"p={round(p_value, round_to)}\n"
 
     if num_groups > 10:
