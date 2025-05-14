@@ -179,11 +179,13 @@ def generate_bar_plot(
         pairs = list(combinations(valid_groups, 2))
         bonferroni = round(alpha / len(pairs), round_to)
         text_str += f"\nPairwise t-tests (Bonf α={bonferroni}):\n"
-        for a, b in pairs:
-            vals_a = df[df[categorical_feature] == a][numerical_feature]
-            vals_b = df[df[categorical_feature] == b][numerical_feature]
+        for group_a, group_b in pairs:
+            vals_a = df[df[categorical_feature] == group_a][numerical_feature]
+            vals_b = df[df[categorical_feature] == group_b][numerical_feature]
             t_stat, p_value = stats.ttest_ind(vals_a, vals_b, equal_var=False)
-            text_str += f"{a} vs {b}: t={round(t_stat, round_to)}, "
+            text_str += (
+                f"{group_a} vs {group_b}: t={round(t_stat, round_to)}, "
+            )
             text_str += f"p={round(p_value, round_to)}\n"
 
     if num_groups > 10:

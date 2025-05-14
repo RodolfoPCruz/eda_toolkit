@@ -1,0 +1,3 @@
+2025-05-14 05:24:37,296 - INFO - Starting data wrangling...
+2025-05-14 05:24:37,464 - INFO - Feature Player Name removed. The proportion of unique values in the feature of type object is 100.00%
+2025-05-14 05:24:37,476 - INFO - Feature Player-additional removed. The proportion of unique values in the feature of type object is 100.00%

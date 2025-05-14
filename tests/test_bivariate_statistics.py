@@ -1,6 +1,7 @@
 """
 Test suite for the `bivariate_stats` function
 """
+
 import pandas as pd
 
 # pylint: disable=import-error

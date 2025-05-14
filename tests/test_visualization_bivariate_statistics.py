@@ -109,6 +109,7 @@ def test_bar_plot_with_two_groups(monkeypatch, sample_data_two_groups):
     called = {"show": False}
 
     def fake_show():
+
         called["show"] = True
 
     monkeypatch.setattr(plt, "show", fake_show)

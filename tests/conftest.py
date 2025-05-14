@@ -262,3 +262,29 @@ def test_df():
             "response": ["Yes", "No", "Yes", "Yes", "No", "No"],
         }
     )
+
+
+@pytest.fixture
+def sample_data_outliers():
+    """
+    A sample DataFrame fixture with mixed data types for testing purposes.
+
+    This fixture provides a DataFrame with four columns:
+        - 'normal_dist': A column of normally distributed values.
+        - 'skewed_dist': A column of exponentially distributed values.
+        - 'binary': A column of binary values.
+        - 'constant': A column of constant values.
+        - 'non_numeric': A column of non-numeric values.
+
+    Returns:
+        pd.DataFrame: A DataFrame with mixed data types for testing.
+    """
+    return pd.DataFrame(
+        {
+            "normal_dist": np.random.normal(loc=50, scale=10, size=1000),
+            "skewed_dist": np.random.exponential(scale=10, size=1000),
+            "binary": np.random.choice([0, 1], size=1000),
+            "constant": [42] * 1000,
+            "non_numeric": ["a"] * 1000,
+        }
+    )
