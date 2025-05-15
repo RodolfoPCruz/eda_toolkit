@@ -22,6 +22,7 @@ configure_logging(log_file_name="outliers.log")
 sns.set_style("darkgrid")
 
 
+
 def calculate_outlier_threshold(
     df: pd.DataFrame, feature: str, skew_thresold: float = 1
 ) -> tuple[float, float]:
@@ -147,6 +148,8 @@ def clean_outliers(
     for feature in features_list:
         # the input features can not be used impute values to output feature
         if feature == output_column and outlier_treatment == "impute":
+        # the input features can not be used impute values to output feature
+        if feature == output_column and outlier_treatment == "impute":
             continue
         # test whether the feature is in the dataframe
         if feature in df.columns:
@@ -264,6 +267,17 @@ def search_eps_dbscan(
     plot: bool = True,
     verbose: bool = True,
 ) -> tuple[pd.DataFrame, float]:
+
+def search_eps_dbscan(
+    df: pd.DataFrame,
+    distance_metric: str = "manhattan",
+    min_samples: int = 5,
+    eps_step: float = 0.01,
+    desired_percentage_outliers: float = 0.02,
+    max_eps: float = 5.0,
+    plot: bool = True,
+    verbose: bool = True,
+) -> tuple[pd.DataFrame, float]:
     """
     Find the optimal eps value for DBSCAN that results in a desired
     percentage of outliers.
@@ -316,6 +330,9 @@ def search_eps_dbscan(
         dbscan = DBSCAN(
             eps=eps, min_samples=min_samples, metric=distance_metric
         )
+        dbscan = DBSCAN(
+            eps=eps, min_samples=min_samples, metric=distance_metric
+        )
         labels = dbscan.fit_predict(df_scaled)
         num_outliers = np.count_nonzero(labels == -1)
         percentage = round(100 * num_outliers / len(df_scaled), 2)
@@ -330,7 +347,14 @@ def search_eps_dbscan(
     results_df = pd.DataFrame(
         {"eps": eps_values, "percentage_outliers(%)": outlier_percentages}
     )
+    results_df = pd.DataFrame(
+        {"eps": eps_values, "percentage_outliers(%)": outlier_percentages}
+    )
 
+    results_df["diff"] = np.abs(
+        results_df["percentage_outliers(%)"]
+        - 100 * desired_percentage_outliers
+    )
     results_df["diff"] = np.abs(
         results_df["percentage_outliers(%)"]
         - 100 * desired_percentage_outliers
@@ -344,6 +368,14 @@ def search_eps_dbscan(
 
     # Plot if requested
     if plot:
+        sns.lineplot(data=results_df, x="eps", y="percentage_outliers(%)")
+        plt.scatter(best_eps, best_pct, color="red")
+        plt.annotate(
+            f"eps = {best_eps}\n% outliers = {best_pct}",
+            xy=(best_eps, best_pct),
+            xytext=(best_eps + 0.1, best_pct + 0.1),
+            arrowprops=dict(arrowstyle="->", color="gray"),
+        )
         sns.lineplot(data=results_df, x="eps", y="percentage_outliers(%)")
         plt.scatter(best_eps, best_pct, color="red")
         plt.annotate(
@@ -430,6 +462,8 @@ def clean_outliers_using_dbscan(
 
 
 if __name__ == "__main__":
+    # nba = load_csv_from_data("nba/nba_salaries.csv")
+    # nba_cleaned = clean_outliers(nba)
     # nba = load_csv_from_data("nba/nba_salaries.csv")
     # nba_cleaned = clean_outliers(nba)
     insurance = load_csv_from_data("insurance/insurance.csv")
