@@ -18,7 +18,6 @@ from eda_toolkit.utils.data_loader import load_csv_from_data
 from eda_toolkit.utils.logger_utils import configure_logging
 
 configure_logging(log_file_name="outliers.log")
-logger = logging.getLogger(__name__)
 
 sns.set_style("darkgrid")
 
@@ -65,6 +64,7 @@ def clean_outliers(
     output_column: str = None,
     skew_thresold: float = 1,
     random_state: int = 42,
+    verbose: bool = True,
 ) -> pd.DataFrame:
     """
     Detect and treat outliers. Two criteria will be used to detect outliers:
@@ -119,19 +119,21 @@ def clean_outliers(
     df = df.dropna()
     final_number_rows = df.shape[0]
     removed_rows = initial_number_rows - final_number_rows
-    logging.info(
-        f"{removed_rows} rows were removed because "
-        "they contained NaN values."
-    )
+    if verbose:
+        logging.info(
+            f"{removed_rows} rows were removed because "
+            "they contained NaN values."
+        )
 
     if features_list is None:
         features_list = df.columns.to_list()
 
     if outlier_treatment not in ["remove", "replace", "impute", None]:
-        logging.info(
-            f"The outlier_treatment {outlier_treatment} is not "
-            "valid. No treatment will be applied to outliers."
-        )
+        if verbose:
+            logging.info(
+                f"The outlier_treatment {outlier_treatment} is not "
+                "valid. No treatment will be applied to outliers."
+            )
         outlier_treatment = None
 
     # remove output_column from features_list. The output column can not be
@@ -153,10 +155,11 @@ def clean_outliers(
 
                 # test whether the feature has only one unique value
                 if df[feature].nunique() == 1:
-                    logging.info(
-                        f"The feature {feature} has only one "
-                        "unique value and was therefore ignored."
-                    )
+                    if verbose:
+                        logging.info(
+                            f"The feature {feature} has only one "
+                            "unique value and was therefore ignored."
+                        )
 
                 # test whether the feature is binary (only true or
                 # false values)
@@ -165,10 +168,11 @@ def clean_outliers(
                 ) or set(df[feature].dropna().unique()).issubset(
                     {True, False}
                 ):
-                    logging.info(
-                        f"The feature {feature} is binary "
-                        "(only true or false values) and was "
-                        "therefore ignored."
+                    if verbose:
+                        logging.info(
+                            f"The feature {feature} is binary "
+                            "(only true or false values) and was "
+                            "therefore ignored."
                     )
 
                 # look for outliers
@@ -183,17 +187,18 @@ def clean_outliers(
                     # are considered outliers
                     count_max_outlier = len(df.loc[df[feature] > max_thresh])
                     count_min_outlier = len(df.loc[df[feature] < min_thresh])
-                    logging.info(
-                        f"The feature {feature} has "
-                        f"{count_max_outlier} "
-                        f"values above {max_thresh}"
-                    )
-
-                    logging.info(
-                        f"The feature {feature} "
-                        f"has {count_min_outlier} "
-                        f"values below {min_thresh}"
-                    )
+                    if verbose:
+                        logging.info(
+                            f"The feature {feature} has "
+                            f"{count_max_outlier} "
+                            f"values above {max_thresh}"
+                        )
+                    if verbose:
+                        logging.info(
+                            f"The feature {feature} "
+                            f"has {count_min_outlier} "
+                            f"values below {min_thresh}"
+                        )
 
                     has_outliers = (
                         count_max_outlier > 0 or count_min_outlier > 0
@@ -233,16 +238,18 @@ def clean_outliers(
                         df[feature] = df_temp[feature]
 
             else:
-                logging.info(
-                    f"The feature {feature} is not "
-                    "numeric and was therefore ignored"
-                )
+                if verbose:
+                    logging.info(
+                        f"The feature {feature} is not "
+                        "numeric and was therefore ignored"
+                    )
 
         else:
-            logging.info(
-                f"A {feature} não foi encontrada "
-                "no dataframe e foi ignorada"
-            )
+            if verbose:
+                logging.info(
+                    f"A {feature} não foi encontrada "
+                    "no dataframe e foi ignorada"
+                )
 
     return df
 
@@ -391,7 +398,7 @@ def clean_outliers_using_dbscan(
     cleaned_shape = df_temp.shape
 
     if verbose:
-        print(
+        logging.info(
             f"Removed {initial_shape[0] - cleaned_shape[0]} rows and "
             f"{initial_shape[1] - cleaned_shape[1]} "
             "columns with missing values."
@@ -413,7 +420,7 @@ def clean_outliers_using_dbscan(
     # Identify outliers
     outlier_indices = original_indices[labels == -1]
     if verbose:
-        print(
+        logging.info(
             f"Removing {len(outlier_indices)} outliers "
             f"({round(len(outlier_indices) / len(df_clean) * 100, 2)}%)"
         )

@@ -10,7 +10,7 @@ from eda_toolkit.utils.data_loader import load_csv_from_data
 from eda_toolkit.utils.logger_utils import configure_logging
 
 configure_logging(log_file_name="wrangling.log")
-logger = logging.getLogger(__name__)
+#logger = logging.getLogger(__name__)
 
 
 def basic_wrangling(
@@ -18,6 +18,7 @@ def basic_wrangling(
     columns: list = None,
     proportion_nan_thresh: float = 0.95,
     proportion_unique_thresh: float = 0.95,
+    verbose: bool = True
 ):
     """
     Function to execute some basic data wrangling in pandas dataframe.
@@ -45,7 +46,8 @@ def basic_wrangling(
     """
 
     df = df.copy()
-    logging.info("Starting data wrangling...")
+    if verbose:
+        logging.info("Starting data wrangling...")
 
     if columns is None:
         columns = df.columns
@@ -62,17 +64,19 @@ def basic_wrangling(
             # remove empty or almost empy columns
             if proportion_nan_values > proportion_nan_thresh:
                 df = df.drop(columns=feature)
-                logger.info(
-                    "Feature %s removed. %.2f%% of missing values.",
-                    feature,
-                    100 * proportion_nan_values,
-                )
+                if verbose:
+                    logging.info(
+                        "Feature %s removed. %.2f%% of missing values.",
+                        feature,
+                        100 * proportion_nan_values,
+                        )
 
             # remove features with only one unique value
             elif num_unique == 1:
                 df = df.drop(columns=feature)
 
-                logger.info(
+                if verbose:
+                    logging.info(
                     "Feature %s removed. There is only one  unique value "
                     "in the column.",
                     feature,
@@ -85,17 +89,21 @@ def basic_wrangling(
                 and not pd.api.types.is_numeric_dtype(df[feature])
             ):
                 df = df.drop(columns=feature)
-                logger.info(
-                    "Feature %s removed. The proportion of unique values in "
-                    "the feature of "
-                    "type %s is %.2f%%",
-                    feature,
-                    data_type,
-                    100 * proportion_unique_values,
-                )
+                if verbose:
+                    logging.info(
+                        "Feature %s removed. The proportion of unique " \
+                        "values in "
+                        "the feature of "
+                        "type %s is %.2f%%",
+                        feature,
+                        data_type,
+                        100 * proportion_unique_values,
+                    )
 
         else:
-            logger.info("The feature %s is not in the dataframe.", feature)
+            if verbose:
+                logging.info("The feature %s is not in the dataframe.", 
+                             feature)
 
     return df
 
