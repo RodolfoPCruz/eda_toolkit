@@ -4,6 +4,7 @@ bivariate statistics of features in a pandas dataframe.
 """
 
 from itertools import combinations
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -159,14 +160,14 @@ def generate_bar_plot(
 
     if num_groups < 2:
         raise ValueError(
-            "It is necessary to have at least two valid groups in " \
+            "It is necessary to have at least two valid groups in "
             "the categorical feature."
         )
 
     # Statistical tests
     if num_groups == 2:
         t_stat, p_value = stats.ttest_ind(*groups_list, equal_var=False)
-        text_str = f"t-test:\nt={round(t_stat, round_to)}, " 
+        text_str = f"t-test:\nt={round(t_stat, round_to)}, "
         text_str += f"p={round(p_value, round_to)}"
     else:
         f_stat, p_val_anova = stats.f_oneway(*groups_list)
