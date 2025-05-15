@@ -234,3 +234,41 @@ def test_invalid_outlier_treatment(sample_data_outliers):
                                 features_list=['normal_dist'], 
                                 outlier_treatment='invalid_method')
     assert 'normal_dist' in df_cleaned.columns 
+
+def test_clean_outliers_impute(sample_data_outliers):
+    # Inject artificial outliers to ensure they get imputed
+    """
+    Test that clean_outliers function replaces outliers with imputed values
+    when 'impute' outlier treatment is used.
+
+    Parameters
+    ----------
+    sample_data : pd.DataFrame
+        A pandas DataFrame containing sample data.
+
+    Returns
+    -------
+    None
+
+    Notes
+    -----
+    The test checks that the function returns a DataFrame containing the
+    specified feature after imputing outliers with median values.
+    """
+    df = sample_data_outliers.copy()
+    df.loc[0:4, 'normal_dist'] = 1e6  # extreme high values
+    df.loc[5:9, 'normal_dist'] = -1e6  # extreme low values
+
+    df_cleaned = clean_outliers(df, features_list=['normal_dist'], 
+                                outlier_treatment='impute')
+
+    # Check that there are no extremely high or low values after imputation
+    assert df_cleaned['normal_dist'].max() < 1e5
+    assert df_cleaned['normal_dist'].min() > -1e5
+
+    # Check that the column still exists and is float
+    assert 'normal_dist' in df_cleaned.columns
+    assert pd.api.types.is_float_dtype(df_cleaned['normal_dist'])
+
+    # Check that no NaN values are left in the column
+    assert df_cleaned['normal_dist'].isna().sum() == 0

@@ -144,6 +144,9 @@ def clean_outliers(
         features_list_impute_method = features_list
 
     for feature in features_list:
+        #the input features can not be used impute values to output feature   
+        if feature == output_column and outlier_treatment == 'impute':
+            continue
         # test whether the feature is in the dataframe
         if feature in df.columns:
             # only numeric columns will be cleaned
