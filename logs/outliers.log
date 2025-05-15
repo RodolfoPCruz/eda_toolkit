@@ -122,3 +122,9 @@
 2025-05-14 16:48:01,338 - INFO - The feature PTS has 23 values above 24.2
 2025-05-14 16:48:01,339 - INFO - The feature PTS has 0 values below -6.999999999999999
 2025-05-14 16:48:01,339 - INFO - The feature Player-additional is not numeric and was therefore ignored
+2025-05-15 13:22:30,960 - INFO - 0 rows and 0 columns removed due to missing values.
+2025-05-15 13:23:20,193 - INFO - 0 rows and 0 columns removed due to missing values.
+2025-05-15 13:23:55,405 - INFO - 0 rows and 0 columns removed due to missing values.
+2025-05-15 13:23:57,100 - INFO - Best eps: 0.56 for ~2.17% outliers
+2025-05-15 13:24:59,545 - INFO - 0 rows and 0 columns removed due to missing values.
+2025-05-15 13:25:01,118 - INFO - Best eps: 0.56 for ~2.17% outliers

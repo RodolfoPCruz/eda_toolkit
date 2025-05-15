@@ -4,6 +4,7 @@ Tests for the outliers module
 
 import pandas as pd
 from eda_toolkit.outliers import calculate_outlier_threshold, clean_outliers
+from eda_toolkit.outliers import search_eps_dbscan
 
 
 def test_calculate_outlier_threshold_normal_distribution(sample_data_outliers):
@@ -272,3 +273,144 @@ def test_clean_outliers_impute(sample_data_outliers):
 
     # Check that no NaN values are left in the column
     assert df_cleaned['normal_dist'].isna().sum() == 0
+
+
+def test_returns_expected_output(sample_df_eps_search):
+    """
+    Test that search_eps_dbscan returns expected output.
+
+    Parameters
+    ----------
+    sample_df : pd.DataFrame
+        A pandas DataFrame containing sample data.
+
+    Returns
+    -------
+    None
+
+    Notes
+    -----
+    The test checks that the function returns a DataFrame and a float as
+    expected.
+    """
+    results, best_eps = search_eps_dbscan(sample_df_eps_search, 
+                                          plot=False,
+                                            verbose=False)
+    
+    assert isinstance(results, pd.DataFrame)
+    assert "eps" in results.columns
+    assert "percentage_outliers(%)" in results.columns
+    assert isinstance(best_eps, float)
+    
+def test_custom_desired_outlier_percentage(sample_df_eps_search):
+    """
+    Test that search_eps_dbscan returns a valid eps value when a 
+    custom outlier percentage is specified.
+
+    Parameters
+    ----------
+    sample_df : pd.DataFrame
+        A pandas DataFrame containing sample data.
+
+    Returns
+    -------
+    None
+
+    Notes
+    -----
+    The test checks that the function returns a valid eps value when a custom
+    outlier percentage is specified.
+    """
+    _, best_eps = search_eps_dbscan(sample_df_eps_search, 
+                                    desired_percentage_outliers=0.1, 
+                                    plot=False, verbose=False)
+    assert best_eps > 0
+
+def test_min_samples_effect(sample_df):
+    """
+    Test that search_eps_dbscan returns different best eps values when the 
+    min_samples parameter is changed.
+
+    Parameters
+    ----------
+    sample_df : pd.DataFrame
+        A pandas DataFrame containing sample data.
+
+    Returns
+    -------
+    None
+
+    Notes
+    -----
+    The test checks that the function returns different best eps values when
+    the min_samples parameter is changed. This test is useful for 
+    understanding how the min_samples parameter influences the best eps 
+    value.
+    """
+    _, eps_low = search_eps_dbscan(sample_df, 
+                                   min_samples=2, 
+                                   plot=False, 
+                                   verbose=False)
+    _, eps_high = search_eps_dbscan(sample_df, 
+                                    min_samples=10, 
+                                    plot=False, 
+                                    verbose=False)
+    assert eps_low != eps_high
+
+def test_empty_dataframe_raises():
+    """
+    Test that search_eps_dbscan raises a ValueError when given an empty 
+    DataFrame.
+
+    The test checks that the function raises a ValueError with an appropriate
+    error message when given an empty DataFrame as input. This ensures that 
+    the function does not crash silently when given invalid input.
+    """
+    df_empty = pd.DataFrame()
+    with pytest.raises(ValueError, match="Input DataFrame is empty"):
+        search_eps_dbscan(df_empty, plot=False, verbose=False)
+
+def test_all_nan_columns_removed():
+    """
+    Test that search_eps_dbscan removes columns with all NaN values.
+
+    This test verifies that columns containing only NaN values are
+    removed from the DataFrame before DBSCAN is applied. It ensures that
+    the results contain the expected columns and that a valid eps value
+    is returned.
+
+    Asserts:
+        - The 'results' DataFrame contains the 'eps' column.
+        - The 'best_eps' value is greater than 0.
+    """
+
+    df = pd.DataFrame({
+        "a": [1, 2, 3],
+        "b": [np.nan, np.nan, np.nan],
+        "c": [4, 5, 6]
+    })
+    results, best_eps = search_eps_dbscan(df, plot=False, verbose=False)
+    assert "eps" in results.columns
+    assert best_eps > 0
+
+def test_works_with_categorical_features():
+    """
+    Test that search_eps_dbscan works with DataFrames containing categorical 
+    features.
+
+    This test verifies that the function works as expected when given a 
+    DataFrame containing categorical features. It checks that a valid eps 
+    value is returned and that the results contain the 'eps' column.
+
+    Asserts:
+        - The 'results' DataFrame contains the 'eps' column.
+        - The 'best_eps' value is greater than 0.
+    """
+    
+    df = pd.DataFrame({
+        "feature1": np.random.randn(100),
+        "category": np.random.choice(["A", "B", "C"], size=100)
+    })
+    results, best_eps = search_eps_dbscan(df, plot=False, verbose=False)
+    assert isinstance(results, pd.DataFrame)
+    assert best_eps > 0

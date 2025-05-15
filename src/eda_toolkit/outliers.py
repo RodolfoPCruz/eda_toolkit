@@ -4,25 +4,28 @@ Module to detect an treat outliers in a pandas dataframe
 
 import logging
 
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-# import seaborn as sns
+import seaborn as sns
 from sklearn import set_config
 
-# from sklearn.cluster import DBSCAN
+from sklearn.cluster import DBSCAN
 from sklearn.experimental import enable_iterative_imputer
 from sklearn.impute import IterativeImputer
 
-# from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MinMaxScaler
 
 from eda_toolkit.utils.data_loader import load_csv_from_data
 from eda_toolkit.utils.logger_utils import configure_logging
 
+
+
 configure_logging(log_file_name="outliers.log")
 logger = logging.getLogger(__name__)
 
+sns.set_style("darkgrid")
 
 def calculate_outlier_threshold(
     df: pd.DataFrame, feature: str, skew_thresold: float = 1
@@ -247,7 +250,108 @@ def clean_outliers(
 
     return df
 
+def search_eps_dbscan(df: pd.DataFrame, 
+                      distance_metric: str = 'manhattan', 
+                      min_samples: int = 5, 
+                      eps_step: float = 0.01, 
+                      desired_percentage_outliers: float = 0.02,
+                      max_eps: float = 5.0,
+                      plot: bool = True,
+                      verbose: bool = True
+                     ) -> tuple[pd.DataFrame, float]:
+    """
+    Find the optimal eps value for DBSCAN that results in a desired 
+    percentage of outliers.
+
+    Parameters:
+    - df (pd.DataFrame): Input DataFrame.
+    - distance_metric (str): Distance metric for DBSCAN.
+    - min_samples (int): Minimum samples for core point in DBSCAN.
+    - eps_step (float): Step size for increasing eps.
+    - desired_percentage_outliers (float): Target outlier percentage (0-1).
+    - max_eps (float): Upper limit for eps search.
+    - plot (bool): Whether to plot eps vs. outlier percentage.
+    - verbose (bool): Whether to log cleaning info.
+
+    Returns:
+    - tuple[pd.DataFrame, float]: DataFrame of eps vs. outlier percentages, 
+    and selected eps value.
+    """
+    if verbose:
+        logging.info("Starting the search for the best eps value")
+
+    if df.empty:
+        raise ValueError("Input DataFrame is empty.")
+
+    df_temp = df.dropna(how='all', axis=1).dropna(how='any', axis=0)
+
+    if verbose:
+        removed_rows = df.shape[0] - df_temp.shape[0]
+        removed_cols = df.shape[1] - df_temp.shape[1]
+        logging.info(f"{removed_rows} rows and {removed_cols} columns "
+                     "removed due to missing values.")
+
+    # Encode categorical variables
+    df_temp = pd.get_dummies(df_temp, drop_first=True)
+
+    if df_temp.empty:
+        raise ValueError("DataFrame became empty after encoding.")
+
+    # Scale features
+    scaler = MinMaxScaler()
+    df_scaled = scaler.fit_transform(df_temp)
+
+    # Store eps and outlier percentages
+    eps_values = []
+    outlier_percentages = []
+
+    for eps in np.arange(eps_step, max_eps + eps_step, eps_step):
+        dbscan = DBSCAN(eps=eps, min_samples=min_samples, 
+                        metric=distance_metric)
+        labels = dbscan.fit_predict(df_scaled)
+        num_outliers = np.count_nonzero(labels == -1)
+        percentage = round(100 * num_outliers / len(df_scaled), 2)
+
+        eps_values.append(eps)
+        outlier_percentages.append(percentage)
+
+        # Stop early if no more outliers
+        if num_outliers == 0:
+            break
+
+    results_df = pd.DataFrame({
+        "eps": eps_values,
+        "percentage_outliers(%)": outlier_percentages
+    })
+
+    results_df["diff"] = np.abs(results_df["percentage_outliers(%)"] 
+                                - 100 * desired_percentage_outliers)
+    best_idx = results_df["diff"].idxmin()
+    best_eps = round(results_df.loc[best_idx, "eps"], 4)
+    best_pct = results_df.loc[best_idx, "percentage_outliers(%)"]
+
+    if verbose:
+        logging.info(f"Best eps: {best_eps} for ~{best_pct}% outliers")
+
+    # Plot if requested
+    if plot:
+        ax = sns.lineplot(data=results_df, x="eps", 
+                          y="percentage_outliers(%)")
+        plt.scatter(best_eps, best_pct, color='red')
+        plt.annotate(f"eps = {best_eps}\n% outliers = {best_pct}",
+                     xy=(best_eps, best_pct),
+                     xytext=(best_eps + 0.1, best_pct + 0.1),
+                     arrowprops=dict(arrowstyle='->', color='gray'))
+        plt.title("DBSCAN eps vs. Percentage of Outliers")
+        plt.grid(True)
+        plt.show()
+
+    return results_df, best_eps
+
+
 
 if __name__ == "__main__":
-    nba = load_csv_from_data("nba/nba_salaries.csv")
-    nba_cleaned = clean_outliers(nba)
+    #nba = load_csv_from_data("nba/nba_salaries.csv")
+    #nba_cleaned = clean_outliers(nba)
+    insurance = load_csv_from_data("insurance/insurance.csv")
+    insurance_cleaned = search_eps_dbscan(insurance)

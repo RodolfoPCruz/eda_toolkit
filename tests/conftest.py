@@ -7,7 +7,7 @@ import logging
 import numpy as np
 import pandas as pd
 import pytest
-
+from sklearn.datasets import make_blobs
 
 @pytest.fixture(autouse=True)
 def disable_logging():
@@ -288,3 +288,21 @@ def sample_data_outliers():
             "non_numeric": ["a"] * 1000,
         }
     )
+
+@pytest.fixture
+def sample_df_eps_search():
+    """
+    A sample DataFrame fixture for testing the `search_eps_dbscan` function.
+
+    This fixture provides a DataFrame with two feature columns ('feature1' and 'feature2'),
+    generated using the `make_blobs` function from scikit-learn. The DataFrame contains
+    200 samples, with three clusters of points, for testing the `search_eps_dbscan`
+    function.
+
+    Returns:
+        pd.DataFrame: A DataFrame with two feature columns for testing the
+        `search_eps_dbscan` function.
+    """
+    
+    X, _ = make_blobs(n_samples=200, centers=3, random_state=42)
+    return pd.DataFrame(X, columns=["feature1", "feature2"])
