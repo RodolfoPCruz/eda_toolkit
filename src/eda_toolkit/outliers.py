@@ -1,5 +1,9 @@
 """
 Module to detect an treat outliers in a pandas dataframe
+The function clean_outiliers uses the empirical rule and Tukey rule to detect 
+outliers.
+The function clean_outliers_using_dbscan uses the clustering algorrithm DBSCAN
+to detect outliers
 """
 
 import logging
@@ -146,9 +150,7 @@ def clean_outliers(
         features_list_impute_method = features_list
 
     for feature in features_list:
-        # the input features can not be used impute values to output feature
-        if feature == output_column and outlier_treatment == "impute":
-        # the input features can not be used impute values to output feature
+        # the input features can not be used to impute values to output feature
         if feature == output_column and outlier_treatment == "impute":
             continue
         # test whether the feature is in the dataframe
@@ -256,17 +258,6 @@ def clean_outliers(
 
     return df
 
-
-def search_eps_dbscan(
-    df: pd.DataFrame,
-    distance_metric: str = "manhattan",
-    min_samples: int = 5,
-    eps_step: float = 0.01,
-    desired_percentage_outliers: float = 0.02,
-    max_eps: float = 5.0,
-    plot: bool = True,
-    verbose: bool = True,
-) -> tuple[pd.DataFrame, float]:
 
 def search_eps_dbscan(
     df: pd.DataFrame,
@@ -467,4 +458,8 @@ if __name__ == "__main__":
     # nba = load_csv_from_data("nba/nba_salaries.csv")
     # nba_cleaned = clean_outliers(nba)
     insurance = load_csv_from_data("insurance/insurance.csv")
-    insurance_cleaned = search_eps_dbscan(insurance)
+    # insurance_cleaned = clean_outliers(insurance)
+    results_df, best_eps = search_eps_dbscan(insurance, plot=False, 
+                                             verbose=False)
+    insurance_cleaned = clean_outliers_using_dbscan(insurance, best_eps)
+

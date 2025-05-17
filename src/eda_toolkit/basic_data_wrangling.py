@@ -10,7 +10,7 @@ from eda_toolkit.utils.data_loader import load_csv_from_data
 from eda_toolkit.utils.logger_utils import configure_logging
 
 configure_logging(log_file_name="wrangling.log")
-#logger = logging.getLogger(__name__)
+# logger = logging.getLogger(__name__)
 
 
 def basic_wrangling(
@@ -18,7 +18,7 @@ def basic_wrangling(
     columns: list = None,
     proportion_nan_thresh: float = 0.95,
     proportion_unique_thresh: float = 0.95,
-    verbose: bool = True
+    verbose: bool = True,
 ):
     """
     Function to execute some basic data wrangling in pandas dataframe.
@@ -69,7 +69,7 @@ def basic_wrangling(
                         "Feature %s removed. %.2f%% of missing values.",
                         feature,
                         100 * proportion_nan_values,
-                        )
+                    )
 
             # remove features with only one unique value
             elif num_unique == 1:
@@ -77,10 +77,10 @@ def basic_wrangling(
 
                 if verbose:
                     logging.info(
-                    "Feature %s removed. There is only one  unique value "
-                    "in the column.",
-                    feature,
-                )
+                        "Feature %s removed. There is only one  unique value "
+                        "in the column.",
+                        feature,
+                    )
 
             # Remove categorical columns with more than p
             # roprotion_unique_thresh unique values
@@ -91,7 +91,7 @@ def basic_wrangling(
                 df = df.drop(columns=feature)
                 if verbose:
                     logging.info(
-                        "Feature %s removed. The proportion of unique " \
+                        "Feature %s removed. The proportion of unique "
                         "values in "
                         "the feature of "
                         "type %s is %.2f%%",
@@ -102,8 +102,9 @@ def basic_wrangling(
 
         else:
             if verbose:
-                logging.info("The feature %s is not in the dataframe.", 
-                             feature)
+                logging.info(
+                    "The feature %s is not in the dataframe.", feature
+                )
 
     return df
 

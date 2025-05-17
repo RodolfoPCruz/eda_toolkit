@@ -1,0 +1,102 @@
+2025-05-17 09:55:49,585 - INFO - Removed 310 rows with NaN in Arrival Delay in Minutes
+2025-05-17 09:55:49,642 - INFO - Subsampled to 5000 rows from 103594
+2025-05-17 09:55:49,647 - INFO - Initial Skewness: 6.5966
+2025-05-17 09:56:02,239 - INFO - Could not reduce skewness below threshold. Converting 'Arrival Delay in Minutes' to binary.
+2025-05-17 09:56:08,829 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-05-17 09:56:09,039 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-05-17 09:58:19,558 - INFO - Removed 310 rows with NaN in Arrival Delay in Minutes
+2025-05-17 09:58:19,567 - INFO - Subsampled to 5000 rows from 103594
+2025-05-17 09:58:19,572 - INFO - Initial Skewness: 6.5966
+2025-05-17 09:58:26,424 - INFO - Could not reduce skewness below threshold. Converting 'Arrival Delay in Minutes' to binary.
+2025-05-17 09:59:12,200 - INFO - Removed 310 rows with NaN in Arrival Delay in Minutes
+2025-05-17 09:59:12,211 - INFO - Subsampled to 5000 rows from 103594
+2025-05-17 09:59:12,213 - INFO - Initial Skewness: 6.5966
+2025-05-17 09:59:17,599 - INFO - Could not reduce skewness below threshold. Converting 'Arrival Delay in Minutes' to binary.
+2025-05-17 09:59:58,152 - INFO - Removed 310 rows with NaN in Arrival Delay in Minutes
+2025-05-17 09:59:58,160 - INFO - Subsampled to 5000 rows from 103594
+2025-05-17 09:59:58,163 - INFO - Initial Skewness: 6.5966
+2025-05-17 10:00:04,200 - INFO - Could not reduce skewness below threshold. Converting 'Arrival Delay in Minutes' to binary.
+2025-05-17 10:00:40,263 - INFO - Removed 310 rows with NaN in Arrival Delay in Minutes
+2025-05-17 10:00:40,273 - INFO - Subsampled to 5000 rows from 103594
+2025-05-17 10:00:40,277 - INFO - Initial Skewness: 6.5966
+2025-05-17 10:00:40,466 - INFO - Could not reduce skewness below threshold. Converting 'Arrival Delay in Minutes' to binary.
+2025-05-17 10:01:17,734 - INFO - Removed 310 rows with NaN in Arrival Delay in Minutes
+2025-05-17 10:01:17,748 - INFO - Subsampled to 5000 rows from 103594
+2025-05-17 10:01:17,750 - INFO - Initial Skewness: 6.5966
+2025-05-17 10:01:17,933 - INFO - Could not reduce skewness below threshold. Converting 'Arrival Delay in Minutes' to binary.
+2025-05-17 10:02:30,684 - INFO - Removed 310 rows with NaN in Arrival Delay in Minutes
+2025-05-17 10:02:30,693 - INFO - Subsampled to 5000 rows from 103594
+2025-05-17 10:02:30,698 - INFO - Initial Skewness: 6.5966
+2025-05-17 10:02:30,885 - INFO - Could not reduce skewness below threshold. Converting 'Arrival Delay in Minutes' to binary.
+2025-05-17 10:04:40,390 - INFO - Removed 310 rows with NaN in Arrival Delay in Minutes
+2025-05-17 10:04:40,396 - INFO - Subsampled to 5000 rows from 103594
+2025-05-17 10:04:40,403 - INFO - Initial Skewness: 6.5966
+2025-05-17 10:04:40,591 - INFO - Could not reduce skewness below threshold. Converting 'Arrival Delay in Minutes' to binary.
+2025-05-17 10:04:49,624 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-05-17 10:04:49,808 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-05-17 10:05:53,452 - INFO - Removed 310 rows with NaN in Arrival Delay in Minutes
+2025-05-17 10:05:53,463 - INFO - Subsampled to 5000 rows from 103594
+2025-05-17 10:05:53,465 - INFO - Initial Skewness: 6.5966
+2025-05-17 10:05:53,640 - INFO - Could not reduce skewness below threshold. Converting 'Arrival Delay in Minutes' to binary.
+2025-05-17 10:05:59,701 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-05-17 10:05:59,858 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-05-17 10:06:18,899 - INFO - Removed 310 rows with NaN in Arrival Delay in Minutes
+2025-05-17 10:06:18,906 - INFO - Subsampled to 5000 rows from 103594
+2025-05-17 10:06:18,910 - INFO - Initial Skewness: 6.5966
+2025-05-17 10:06:19,098 - INFO - Could not reduce skewness below threshold. Converting 'Arrival Delay in Minutes' to binary.
+2025-05-17 10:06:25,087 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-05-17 10:06:25,233 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-05-17 10:07:07,314 - INFO - Removed 310 rows with NaN in Arrival Delay in Minutes
+2025-05-17 10:07:07,322 - INFO - Subsampled to 5000 rows from 103594
+2025-05-17 10:07:07,326 - INFO - Initial Skewness: 6.5966
+2025-05-17 10:07:07,522 - INFO - Could not reduce skewness below threshold. Converting 'Arrival Delay in Minutes' to binary.
+2025-05-17 10:07:14,122 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-05-17 10:07:14,273 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-05-17 10:10:51,915 - INFO - Removed 310 rows with NaN in Arrival Delay in Minutes
+2025-05-17 10:10:51,920 - INFO - Subsampled to 5000 rows from 103594
+2025-05-17 10:10:51,922 - INFO - Initial Skewness: 6.5966
+2025-05-17 10:10:52,016 - INFO - Could not reduce skewness below threshold. Converting 'Arrival Delay in Minutes' to binary.
+2025-05-17 10:11:17,038 - INFO - Removed 310 rows with NaN in Arrival Delay in Minutes
+2025-05-17 10:11:17,045 - INFO - Subsampled to 5000 rows from 103594
+2025-05-17 10:11:17,047 - INFO - Initial Skewness: 6.5966
+2025-05-17 10:11:17,144 - INFO - Could not reduce skewness below threshold. Converting 'Arrival Delay in Minutes' to binary.
+2025-05-17 10:13:37,043 - INFO - Removed 310 rows with NaN in Arrival Delay in Minutes
+2025-05-17 10:13:37,048 - INFO - Subsampled to 5000 rows from 103594
+2025-05-17 10:13:37,051 - INFO - Initial Skewness: 6.5966
+2025-05-17 10:13:37,150 - INFO - Could not reduce skewness below threshold. Converting 'Arrival Delay in Minutes' to binary.
+2025-05-17 10:13:40,819 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-05-17 10:13:40,901 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-05-17 10:23:09,824 - INFO - Removed 310 rows with NaN in Arrival Delay in Minutes
+2025-05-17 10:23:09,833 - INFO - Subsampled to 5000 rows from 103594
+2025-05-17 10:23:09,835 - INFO - Initial Skewness: 6.5966
+2025-05-17 10:23:09,942 - INFO - Could not reduce skewness below threshold. Converting 'Arrival Delay in Minutes' to binary.
+2025-05-17 10:23:13,533 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-05-17 10:23:13,627 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-05-17 10:24:27,001 - INFO - Removed 310 rows with NaN in Arrival Delay in Minutes
+2025-05-17 10:24:27,006 - INFO - Subsampled to 5000 rows from 103594
+2025-05-17 10:24:27,009 - INFO - Initial Skewness: 6.5966
+2025-05-17 10:24:27,105 - INFO - Could not reduce skewness below threshold. Converting 'Arrival Delay in Minutes' to binary.
+2025-05-17 10:24:30,800 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-05-17 10:24:30,892 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-05-17 10:25:07,599 - INFO - Removed 310 rows with NaN in Arrival Delay in Minutes
+2025-05-17 10:25:07,604 - INFO - Subsampled to 5000 rows from 103594
+2025-05-17 10:25:07,606 - INFO - Initial Skewness: 6.5966
+2025-05-17 10:25:07,720 - INFO - Could not reduce skewness below threshold. Converting 'Arrival Delay in Minutes' to binary.
+2025-05-17 10:25:11,610 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-05-17 10:25:11,699 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-05-17 10:26:37,441 - INFO - Removed 310 rows with NaN in Arrival Delay in Minutes
+2025-05-17 10:26:37,449 - INFO - Subsampled to 5000 rows from 103594
+2025-05-17 10:26:37,453 - INFO - Initial Skewness: 6.5966
+2025-05-17 10:26:37,569 - INFO - Could not reduce skewness below threshold. Converting 'Arrival Delay in Minutes' to binary.
+2025-05-17 10:26:41,340 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-05-17 10:26:41,461 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-05-17 13:18:29,454 - INFO - Removed 310 rows with NaN in Arrival Delay in Minutes
+2025-05-17 13:18:29,488 - INFO - Subsampled to 5000 rows from 103594
+2025-05-17 13:18:29,495 - INFO - Initial Skewness: 6.5966
+2025-05-17 13:18:39,228 - INFO - Could not reduce skewness below threshold. Converting 'Arrival Delay in Minutes' to binary.
+2025-05-17 13:20:16,882 - INFO - Removed 310 rows with NaN in Arrival Delay in Minutes
+2025-05-17 13:20:16,897 - INFO - Subsampled to 5000 rows from 103594
+2025-05-17 13:20:16,902 - INFO - Initial Skewness: 6.5966
+2025-05-17 13:20:26,810 - INFO - Could not reduce skewness below threshold. Converting 'Arrival Delay in Minutes' to binary.
+2025-05-17 13:20:34,498 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2025-05-17 13:20:34,654 - INFO - Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
