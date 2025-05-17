@@ -1,6 +1,0 @@
-
-[dev]
-pytest
-black
-isort
-flake8

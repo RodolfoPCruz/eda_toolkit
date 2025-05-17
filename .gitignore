@@ -1,3 +1,27 @@
 #ignorar folder com os dados
 data/
 src/eda_toolkit.egg-info
+
+# Byte-compiled / optimized / compiled files
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+env/
+venv/
+.venv/
+
+# Editor/IDE files
+*.swp
+.idea/
+.vscode/
+
+# Test and cache files
+.pytest_cache/
+*.log
+
+# System files
+.DS_Store
+
+.ipynb_checkpoints/
+
