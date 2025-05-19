@@ -148,5 +148,5 @@ def plot_histograms_countplots(
 if __name__ == "__main__":
     nba = load_csv_from_data("nba/nba_salaries.csv")
     univariate_stats = univariate_statistics(nba)
-    #print(univariate_stats.head())
+    # print(univariate_stats.head())
     plot_histograms_countplots(nba)

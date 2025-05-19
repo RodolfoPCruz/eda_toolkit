@@ -1,6 +1,6 @@
 """
 Module to detect an treat outliers in a pandas dataframe
-The function clean_outiliers uses the empirical rule and Tukey rule to detect 
+The function clean_outiliers uses the empirical rule and Tukey rule to detect
 outliers.
 The function clean_outliers_using_dbscan uses the clustering algorrithm DBSCAN
 to detect outliers
@@ -14,7 +14,7 @@ import pandas as pd
 import seaborn as sns
 from sklearn import set_config
 from sklearn.cluster import DBSCAN
-from sklearn.experimental import enable_iterative_imputer
+from sklearn.experimental import enable_iterative_imputer  # noqa: F401
 from sklearn.impute import IterativeImputer
 from sklearn.preprocessing import MinMaxScaler
 
@@ -24,7 +24,6 @@ from eda_toolkit.utils.logger_utils import configure_logging
 configure_logging(log_file_name="outliers.log")
 
 sns.set_style("darkgrid")
-
 
 
 def calculate_outlier_threshold(
@@ -178,7 +177,7 @@ def clean_outliers(
                             f"The feature {feature} is binary "
                             "(only true or false values) and was "
                             "therefore ignored."
-                    )
+                        )
 
                 # look for outliers
                 else:
@@ -459,7 +458,7 @@ if __name__ == "__main__":
     # nba_cleaned = clean_outliers(nba)
     insurance = load_csv_from_data("insurance/insurance.csv")
     # insurance_cleaned = clean_outliers(insurance)
-    results_df, best_eps = search_eps_dbscan(insurance, plot=False, 
-                                             verbose=False)
+    results_df, best_eps = search_eps_dbscan(
+        insurance, plot=False, verbose=False
+    )
     insurance_cleaned = clean_outliers_using_dbscan(insurance, best_eps)
-
