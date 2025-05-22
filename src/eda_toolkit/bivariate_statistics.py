@@ -229,7 +229,7 @@ def handle_anova(df_temp, numeric_col, cat_col, round_to, meta: StatMeta):
         tstat, p = stats.ttest_ind(valid_groups[0], valid_groups[1])
         return result_row(
             meta,
-            F_pvalue=round(p, round_to),
+            ttest_pvalue=round(p, round_to),
             ttest=round(tstat, round_to),
             skew=round(df_temp[numeric_col].skew(), round_to),
         )
@@ -239,8 +239,8 @@ def handle_anova(df_temp, numeric_col, cat_col, round_to, meta: StatMeta):
         f, p = stats.f_oneway(*groups)
         return result_row(
             meta,
-            p_value=round(p, round_to),
-            F_pvalue=round(f, round_to),
+            F_pvalue=round(p, round_to),
+            F=round(f, round_to),
             skew=round(df_temp[numeric_col].skew(), round_to),
         )
     except ValueError as ve:
