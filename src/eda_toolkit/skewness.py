@@ -253,7 +253,7 @@ def apply_final_transformation(
     best_tranformation: str,
     feature: str,
     subsampled: bool,
-    positively_skewed: bool,
+    skew_positive: bool,
 ):
     """
     Apply the best transformation to correct the skewness.
@@ -267,7 +267,7 @@ def apply_final_transformation(
         feature (str): The name of the feature to transform.
         subsampled (bool): A boolean indicating whether the feature is
                             subsampled.
-        positively_skewed (bool): A boolean indicating whether the feature
+        skew_positive (bool): A boolean indicating whether the feature
                     is positively skewed.
 
     Returns:
@@ -284,7 +284,7 @@ def apply_final_transformation(
     if subsampled:
 
         if best_tranformation == "log":
-            if positively_skewed:
+            if skew_positive:
                 df[feature + "_transformed"] = np.log(df[feature] + epsilon)
             else:
                 shifted = df[feature] + 1 - df[feature].max()
@@ -429,10 +429,19 @@ def correct_skew(
 
 
 if __name__ == "__main__":
-    airline = load_csv_from_data("airline/train.csv")
-    airline_tranformed, resultados = correct_skew(
-        airline,
-        "Arrival Delay in Minutes",
+    #airline = load_csv_from_data("airline/train.csv")
+    #airline_tranformed, resultados = correct_skew(
+    #    airline,
+    #    "Arrival Delay in Minutes",
+    #    plot_all_transformations=True,
+    #    plot_transformed_feature=True,
+    #    verbose=True,
+    #)
+
+    insurance = load_csv_from_data("insurance/insurance.csv")
+    insurance_tranformed, resultados = correct_skew(
+        insurance,
+        "charges",
         plot_all_transformations=True,
         plot_transformed_feature=True,
         verbose=True,
