@@ -293,7 +293,7 @@ def apply_final_transformation(
         elif best_tranformation == "yeo":
             pwr = PowerTransformer(method="yeo-johnson")
             feature_name = feature + "_transformed"
-            df[feature_name] = pwr.fit_transform(df[[feature]]).flatten()
+            df[feature_name] = pwr.fit_transform(df[[feature]])
             df[feature_name] = df[feature_name].flatten()
         else:
             power = round(float(best_tranformation), 3)
