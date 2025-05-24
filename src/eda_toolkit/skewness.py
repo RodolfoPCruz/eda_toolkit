@@ -161,7 +161,7 @@ def apply_transformations(
         f"Initial Skewness: {round(initial_skew, round_to)}"
     )
 
-    if initial_skew > skew_threshold:
+    if abs(initial_skew) > skew_threshold:
         skew_power_transformation = {}
         powers = np.linspace(1.01, max_power, num_power_iterations)
 
@@ -420,12 +420,12 @@ def correct_skew(
     if verbose:
         logging.info(f"Initial Skewness: {round(skew, 4)}")
 
-    if skew < initial_skew_threshold:
+    if abs(skew) < initial_skew_threshold:
         if verbose:
             logging.info(
                 "Feature not sufficiently skewed. No transformation applied."
             )
-            return df_temp
+        return {}, {}
 
     transformed, results = apply_transformations(
         df_temp,
