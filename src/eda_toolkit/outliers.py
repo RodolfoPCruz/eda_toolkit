@@ -129,6 +129,8 @@ def clean_outliers(
             "they contained NaN values."
         )
 
+    outliers_thresholds = {}
+
     if features_list is None:
         features_list = df.columns.to_list()
 
@@ -187,6 +189,8 @@ def clean_outliers(
                         df, feature, skew_thresold
                     )
 
+                    outliers_thresholds[feature] = (min_thresh, max_thresh)  
+
                     # values above max_thresh and values below min_thresh
                     # are considered outliers
                     count_max_outlier = len(df.loc[df[feature] > max_thresh])
@@ -225,22 +229,6 @@ def clean_outliers(
                         df.loc[df[feature] > max_thresh, feature] = max_thresh
                         df.loc[df[feature] < min_thresh, feature] = min_thresh
 
-                    elif outlier_treatment == "impute":
-                        df_temp = df[features_list_impute_method].copy()
-                        df_temp.loc[df_temp[feature] > max_thresh, feature] = (
-                            np.nan
-                        )
-                        df_temp.loc[df_temp[feature] < min_thresh, feature] = (
-                            np.nan
-                        )
-
-                        df_temp = pd.get_dummies(df_temp, drop_first=True)
-                        imputer = IterativeImputer(
-                            max_iter=10, random_state=random_state
-                        )
-                        df_temp = imputer.fit_transform(df_temp)
-                        df[feature] = df_temp[feature]
-
             else:
                 if verbose:
                     logging.info(
@@ -251,9 +239,32 @@ def clean_outliers(
         else:
             if verbose:
                 logging.info(
-                    f"A {feature} não foi encontrada "
-                    "no dataframe e foi ignorada"
+                    f"The {feature} was not in the dataframe."
                 )
+    if outlier_treatment == 'impute':
+        df_temp = df[features_list_impute_method].copy()
+        for feature in outliers_thresholds:
+            df_temp.loc[df_temp[feature] > outliers_thresholds[feature][1],
+                                                        feature] = np.nan
+            
+            df_temp.loc[df_temp[feature] < outliers_thresholds[feature][0], 
+                                                        feature] = np.nan
+        
+        num_outliers = df_temp.isna().sum().sum() 
+        logging.info(
+                    f"{num_outliers} OUTLIERS."
+                ) 
+        if num_outliers > 0:
+            df_temp = pd.get_dummies(df_temp, drop_first = True)
+            imputer = IterativeImputer(max_iter=10, 
+                        random_state = random_state)
+            df_temp = imputer.fit_transform(df_temp)
+            cleaned_features = list(outliers_thresholds.keys())
+            df[cleaned_features] = df_temp[cleaned_features]
+            if df_temp.isna().sum().sum() == 0:
+                logging.info(
+                    f"{num_outliers} imputed."
+                )   
 
     return df
 
@@ -457,8 +468,8 @@ if __name__ == "__main__":
     # nba = load_csv_from_data("nba/nba_salaries.csv")
     # nba_cleaned = clean_outliers(nba)
     insurance = load_csv_from_data("insurance/insurance.csv")
-    # insurance_cleaned = clean_outliers(insurance)
-    results_df, best_eps = search_eps_dbscan(
-        insurance, plot=False, verbose=False
-    )
-    insurance_cleaned = clean_outliers_using_dbscan(insurance, best_eps)
+    insurance_cleaned = clean_outliers(insurance, outlier_treatment = 'impute')
+    #results_df, best_eps = search_eps_dbscan(
+    #    insurance, plot=False, verbose=False
+    #)
+    #insurance_cleaned = clean_outliers_using_dbscan(insurance, best_eps)
